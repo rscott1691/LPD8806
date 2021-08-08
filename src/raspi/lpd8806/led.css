@@ -1,0 +1,44 @@
+.center_round {
+    position:relative;
+    width: 170px;
+    height: 20px;
+    left: 40%;
+}
+
+.upward {
+    height: 20px;
+    padding: 10px;
+}
+
+.uleft {
+    float:left;
+}
+.uright {
+    float:right;
+}
+
+.bottomup {
+    width: 20px;
+}
+
+.bleft {
+    float:left;
+}
+
+.bright {
+    float:right;
+}
+
+span {
+    display: block;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    border: 1px solid #bbb;
+    float:left;
+}
+
+
+span.clear {
+    clear: both;
+}

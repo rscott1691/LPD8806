@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+	<title>LED Controller</title>
+</head>
+
+<body>
+<form id="buttons">
+</form>
+<h2>Current</h2>
+<div id="current"></div>
+<h2>Queue</h2>
+<div id="queue"></div>
+
+<style type="text/css">
+    input.pressed {
+        background-color: red;
+    }
+
+</style>
+
+<script type="text/javascript" src="/js/mushroom.js"></script>
+<script type="text/javascript" src="/js/jquery.js"></script>
+<script type="text/javascript">
+$(function() {
+    sendMessage = function(msg) {
+        client.notify('message', {
+            message: msg
+    });
+    }
+    var client = new mushroom.Client({
+        url: '/'
+    });
+    client.signals.connected.connect(function() {
+        client.notify('get_availables', {});
+    });
+    client.method('button_pressed', function(request) {
+        var inp =  $('input[value='+request.data+']')
+        inp.addClass('pressed');
+        var remove_pressed_class = function() { 
+            inp.removeClass('pressed');}
+        window.setTimeout(remove_pressed_class, 500);
+    });
+    client.method('current', function(request) {
+        $('#current').html('');
+        $(request.data).each(function(index, seq) {
+            var current = $('<div class="cur">'+ seq +' <a href="#">stop</a></div>');
+            current.find('a').click(function(ev) { ev.preventDefault(); sendMessage('stop:'+seq); return false });
+            $('#current').append(current);
+            });
+        });
+    client.method('queue', function(request) {
+        $('#queue').html('');
+        console.log('queueupdate');
+        $(request.data).each(function(index, seq) {
+            var queueitem = $('<div class="queue">'+ seq +' <a href="#">remove</a></div>');
+            queueitem.find('a').click(function(ev) { ev.preventDefault(); sendMessage('remove:'+seq); return false });
+            $('#queue').append(queueitem);
+            });
+        });
+    client.method('available', function(request) {
+        $('#buttons').html('');
+        $(request.data).each(function(index, avail) {
+            $('#buttons').append('<input type="button" value="'+avail+'" name="seq" />');
+            })
+    });
+    client.connect();
+        $('input').live('click', function(ev) { sendMessage($(ev.target).val());  });
+});
+</script>
+
+</body>
+
+</html>
