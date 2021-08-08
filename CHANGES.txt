@@ -1,0 +1,13 @@
+CHANGES
+*******
+
+0.2 (2013-08-16)
+================
+
+- Move the README to its proper place.
+
+
+0.1 (2013-08-16)
+================
+
+* Initial public release.

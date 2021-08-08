@@ -1,0 +1,8 @@
+TODO:
+=====
+
+* better Documentation (+rabbitmq)
+* sequence script registration while running
+* mark looping sequences in UI
+
+* sequences: jenkins status
